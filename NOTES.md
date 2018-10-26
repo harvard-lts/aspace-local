@@ -20,7 +20,7 @@ ASPACE_JAVA_XMX="-Xmx24g"
 3. `AppConfig[:solr_backup_schedule] = "0 0 * * 1"`
 4. Indexing:  
 ```ruby
- AppConfig[:indexer_records_per_thread] = 25  
+AppConfig[:indexer_records_per_thread] = 25  
 AppConfig[:indexer_thread_count] = 2  
 AppConfig[:indexer_solr_timeout_seconds] = 600 
 ```
@@ -31,9 +31,34 @@ AppConfig[:record_inheritance][:archival_object][:composite_identifiers] = {
   :identifier_delimiter => ', '
 }
 ```
-6. PUI configurations:
+6. PUI configurations:  many PUI configuration keys are overridden directly in the **aspace-hvd-pui** plugin; here are some that aren't:
 ```ruby
 AppConfig[:pui_enable_staff_link] = false # aspace-hvd-pui
 AppConfig[:pui_feedback_link] = "http://nrs.harvard.edu/urn-3:hul.ois:archivesdiscovery"
 AppConfig[:pui_help_link] = "https://guides.library.harvard.edu/hollisforarchivaldiscovery"
+## PUI email settings (logs emails when disabled) aspace-hvd- 
+AppConfig[:pui_email_enabled] = true  
+AppConfig[:pui_email_delivery_method] = :sendmail 
+AppConfig[:pui_email_sendmail_settings] = {  
+  location: '/usr/sbin/sendmail',          
+  arguments: '-i' 
+ }   
+AppConfig[:pui_email_perform_deliveries] = true  
+AppConfig[:pui_email_raise_delivery_errors] = true    
+AppConfig[:pui_perma] = "http://{whatever id.lib host is appropriate"
 ```
+## Plugins:
+
+We are using the following plugins:
+* refid_rules
+* [aspace-omniauth-cas](https://github.com/harvard-library/aspace-omniauth-cas)
+* [aspace-import-excel](https://github.com/harvard-library/aspace-import-excel)
+* [aspace-hvd-pui](https://github.com/harvard-library/aspace-hvd-pui)
+* [aspace-ead-xform](https://github.com/harvard-library/aspace-ead-xform)
+* [nla_accession_reports](https://github.com/harvard-library/nla_accession_reports)
+* archivesspace_export_service #TODO: MV
+* aspace-jsonmodel-from-format #TODO: MV
+*  AND, IN QA ONLY AT THE MOMENT: #TODO: MV
+   * request_list
+   * harvard_request_list_customizations
+

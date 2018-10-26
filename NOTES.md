@@ -29,6 +29,7 @@ AppConfig[:indexer_solr_timeout_seconds] = 600
  AppConfig[:oai_ead_options] = {
           :include_daos => true,
           :use_numbered_c_tags => false
+          }
 
 ```
 6. Record inheritance:

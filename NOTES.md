@@ -15,7 +15,7 @@ ASPACE_JAVA_XMX="-Xmx24g"
 ### Things to look for in upgrading:
 
 1. Make sure that AppConfig[:omniauthCas] is defined.
-2. We use external solr.  `AppConfig[:solr_url]` and `AppConfig[:pui_solr_host]` must be pointing to the external instance, and `AppConfig[:enable_solr] = false`
+2. We use external solr.  `AppConfig[:solr_url]` and `AppConfig[:pui_solr_host]` must be pointing to the external instance **SHARD** (**not** the ELB), and `AppConfig[:enable_solr] = false`
 
 3. `AppConfig[:solr_backup_schedule] = "0 0 * * 1"`
 4. Indexing:  

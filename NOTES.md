@@ -124,6 +124,7 @@ We are using the following plugins:
 * [aspace-hvd-pui](https://github.com/harvard-library/aspace-hvd-pui)
 * [aspace-ead-xform](https://github.com/harvard-library/aspace-ead-xform)
 * [nla_accession_reports](https://github.com/harvard-library/nla_accession_reports)
+* [aspace-event-cleanup](https://github.com/harvard-library/aspace-event-cleanup)
 * archivesspace_export_service #TODO: MV
 * aspace-jsonmodel-from-format #TODO: MV
 *  AND, IN QA ONLY AT THE MOMENT: #TODO: MV

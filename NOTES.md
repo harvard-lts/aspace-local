@@ -131,3 +131,13 @@ We are using the following plugins:
    * request_list
    * harvard_request_list_customizations
 
+## ArchivesSnake usage:
+
+We are using [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake) with our [aspace-pyscripts] (https://github.com/harvard-library/aspace_pyscripts) repository.  Mostly this is used for generating PDFs based on a cron job.
+
+There are two ***yml** files that need to be stored outside of the aspace_pyscripts directory in case a new version of this repository is installed.  
+
+The **s3.yml** file contains the credentials for the S3 store in which the PDFs are kept.
+
+The **pdf_store.yml** file includes links to the Solr URL and Solr Collection; if either of these change, **make sure you change the values in this file**
+

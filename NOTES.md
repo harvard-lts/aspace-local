@@ -141,3 +141,28 @@ The **s3.yml** file contains the credentials for the S3 store in which the PDFs 
 
 The **pdf_store.yml** file includes links to the Solr URL and Solr Collection; if either of these change, **make sure you change the values in this file**
 
+### pdfStorer.py cron job
+
+There is a cron job that runs every 15 minutes from 7:15 am to 7pm, Monday through Friday, that generates PDF files from newly created/updated collections.  
+
+Here is its current command line:
+```bash
+python3 /home/aspace/aspace_pyscripts/pdfStorer.py -f bobbi_fox@harvard.edu -t bobbi@hulmail.harvard.edu
+```
+Use of the `-f`, `-t` qualifiers causes a brief email to be sent on the status of the job.  For example:
+
+```
+From:	bobbi_fox@harvard.edu
+Sent:	Friday, November 30, 2018 10:11 AM
+To:	bobbi@hulmail.harvard.edu
+Subject:	Batch Processing of ArchivesSpace PDFs Completed
+
+2018-11-30 10:05:02 Beginning PDF storing run: all is False, repo_code is None , from is 
+'bobbi_fox@harvard.edu', to is 'bobbi@hulmail.harvard.edu'
+	 Logfile is at /home/aspace/aspace_pyscripts/logs/pdf_storer_20181130.log
+2018-11-30 10:11:02 Completed. Processed 33 repositories, 7861 resources: 2 pdfs created, 0 pdfs deleted, 0 errors
+```
+If an error is encountered, the *Subject* line will read:
+```Batch Processing of ArchivesSpace PDFs Completed WITH ERROR```
+
+**Note** that, for some reason, the mailer on **aspace-prod-lib-harvard.edu** doesn't like sending to email addresses ending in `@harvard.edu`  This is something that needs to be addressed as the @hulmail server goes away.

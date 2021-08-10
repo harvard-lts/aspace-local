@@ -36,7 +36,7 @@ class EADSerializer < ASpaceExport::Serializer
       content = content.gsub("<p><p>","<p>").gsub("</p></p>","</p>")
 
     elsif content.start_with?("NOPARA:")
-      content = content.split("NOPARA:")[1] 
+      content = content.split("NOPARA:")[1]
       content = "#{content.strip}"
     else
       content = "<p>#{content.strip}</p>"
@@ -92,8 +92,8 @@ class EADSerializer < ASpaceExport::Serializer
           sn['items'].each do |item|
 nopara = "NOPARA:" + item
 #puts(item)
-            xml.item {sanitize_mixed_content(nopara, xml, fragments, include_p)} 
-            #xml.item {sanitize_mixed_content(item, xml, fragments)} 
+            xml.item {sanitize_mixed_content(nopara, xml, fragments, include_p)}
+            #xml.item {sanitize_mixed_content(item, xml, fragments)}
           end
         }
       when 'note_definedlist'
@@ -135,7 +135,8 @@ nopara = "NOPARA:" + item
           titleproper = ""
           titleproper += "#{data.finding_aid_title} " if data.finding_aid_title
           titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
-          titleproper += "<num>#{(0..3).map{|i| data.send("id_#{i}")}.compact.join('.')}</num>"
+          num = (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
+          titleproper += "<num>#{num}</num>"
           xml.titleproper("type" => "filing") { sanitize_mixed_content(data.finding_aid_filing_title, xml, fragments)} unless data.finding_aid_filing_title.nil?
           xml.titleproper {  sanitize_mixed_content(titleproper, xml, fragments) }
           xml.subtitle {  sanitize_mixed_content(data.finding_aid_subtitle, xml, fragments) } unless data.finding_aid_subtitle.nil?
@@ -236,7 +237,7 @@ nopara = "NOPARA:" + item
     return if digital_object["publish"] === false && !@include_unpublished
     return if digital_object["suppressed"] === true
 
-    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set 
+    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set
     file_versions_to_display = digital_object['file_versions'].select {|fv| fv['publish'] == true || @include_unpublished }
 
     title = digital_object['title']
@@ -273,8 +274,8 @@ nopara = "NOPARA:" + item
       atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
-      atts['xlink:href'] = file_version['file_uri'] 
-      atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
+      atts['xlink:href'] = file_version['file_uri']
+      atts['xlink:audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
@@ -282,33 +283,33 @@ nopara = "NOPARA:" + item
       xml.daogrp( atts.merge( { 'xlink:type' => 'extended'} ) ) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         resatts = {}
-	resatts['xlink:label'] = 'start'
-	resatts['xlink:type'] = 'resource'
-	xml.resource(resatts)
+	      resatts['xlink:label'] = 'start'
+	      resatts['xlink:type'] = 'resource'
+	      xml.resource(resatts)
         file_versions_to_display.each do |file_version|
-	  showAtt    = file_version['xlink_show_attribute']
-	  actuateAtt = file_version['xlink_actuate_attribute']
+	        showAtt    = file_version['xlink_show_attribute']
+	        actuateAtt = file_version['xlink_actuate_attribute']
           atts['xlink:type'] = 'locator'
-          atts['xlink:href'] = file_version['file_uri'] 
+          atts['xlink:href'] = file_version['file_uri']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
-          atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
+          atts['xlink:audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
           if showAtt == 'embed'
-	    atts['xlink:label'] = 'thumb'
+	          atts['xlink:label'] = 'thumb'
           elsif showAtt == 'new'
-	    atts['xlink:label'] = 'reference'
-	  end
+	          atts['xlink:label'] = 'reference'
+	        end
           xml.daoloc(atts)
           arcatts = {}
-	  arcatts['xlink:type'] = 'arc'
+	        arcatts['xlink:type'] = 'arc'
           arcatts['xlink:show'] = showAtt #file_version['xlink_show_attribute']
           arcatts['xlink:actuate'] = actuateAtt #file_version['xlink_actuate_attribute']
           if showAtt == 'embed'
-	    arcatts['xlink:from'] = 'start'
-	    arcatts['xlink:to'] = 'thumb'
+	          arcatts['xlink:from'] = 'start'
+	          arcatts['xlink:to'] = 'thumb'
           elsif showAtt == 'new'
-	    arcatts['xlink:from'] = 'thumb'
-	    arcatts['xlink:to'] = 'reference'
+	          arcatts['xlink:from'] = 'thumb'
+	          arcatts['xlink:to'] = 'reference'
           end
           xml.arc(arcatts)
         end

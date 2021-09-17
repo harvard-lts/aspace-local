@@ -275,7 +275,7 @@ nopara = "NOPARA:" + item
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
       atts['xlink:href'] = file_version['file_uri']
-      atts['xlink:audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
+      atts['audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
@@ -293,7 +293,7 @@ nopara = "NOPARA:" + item
           atts['xlink:href'] = file_version['file_uri']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
-          atts['xlink:audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
+          atts['audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
           if showAtt == 'embed'
 	          atts['xlink:label'] = 'thumb'
           elsif showAtt == 'new'

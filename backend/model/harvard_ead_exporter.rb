@@ -4,6 +4,17 @@ require 'securerandom'
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
+  # backported from 3.1.0 -> 3.0.2
+  # ANW-669: Fix for attributes in mixed content causing errors when validating against the EAD schema.
+  # If content looks like it contains a valid XML element with an attribute from the expected list,
+  # then replace the attribute like " foo=" with " xlink:foo=".
+  def add_xlink_prefix(content)
+    %w{ actuate arcrole from href role show title to}.each do |xa|
+      content.gsub!(/ #{xa}=/) {|match| " xlink:#{match.strip}"} if content =~ / #{xa}=/
+    end
+    content
+  end
+
   def xml_errors(content)
     # there are message we want to ignore. annoying that java xml lib doesn't
     # use codes like libxml does...
@@ -274,7 +285,7 @@ nopara = "NOPARA:" + item
       atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
-      atts['xlink:href'] = file_version['file_uri']
+      atts['xlink:href'] = file_version['file_uri'].strip 
       atts['audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
@@ -290,7 +301,7 @@ nopara = "NOPARA:" + item
 	        showAtt    = file_version['xlink_show_attribute']
 	        actuateAtt = file_version['xlink_actuate_attribute']
           atts['xlink:type'] = 'locator'
-          atts['xlink:href'] = file_version['file_uri']
+          atts['xlink:href'] = file_version['file_uri'].strip 
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
           atts['audience'] = is_digital_object_published?(digital_object, file_version) ? 'external' : 'internal'

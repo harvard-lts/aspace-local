@@ -245,7 +245,7 @@
             <xsl:if test="ead:sponsor">
                 <fo:block font-size="12">
                     <xsl:apply-templates select="ead:sponsor"/>
-                </fo:block>     
+                </fo:block>
             </xsl:if>
 
         </fo:block>
@@ -1292,7 +1292,7 @@
         <fo:block margin="4pt 18pt"><xsl:apply-templates/></fo:block>
     </xsl:template>
     <xsl:template match="ead:emph[not(@render)]"><fo:inline font-style="italic"><xsl:apply-templates/></fo:inline></xsl:template>
-    
+
     <!-- HARVARD CUSTOMIZATION: render the text in the title element as italic -->
     <xsl:template match="ead:title">
         <fo:inline font-style="italic"><xsl:apply-templates/></fo:inline>
@@ -1547,11 +1547,10 @@
     <!-- Unittitles and all other clevel elements -->
     <xsl:template match="ead:did" mode="dsc">
         <fo:block margin-bottom="0">
-        
             <!-- HARVARD CUSTOMIZATION: Display the unit id -->
-            <xsl:if test="(string-length(ead:unitid) &gt; 0)">
+            <xsl:if test="(string-length(ead:unitid[not(@type='aspace_uri')][0]) &gt; 0)">
                 <fo:inline font-style="italic">
-                    <xsl:value-of select="ead:unitid"/>
+                    <xsl:value-of select="ead:unitid[not(@type='aspace_uri)]"/>
                     <xsl:text>: </xsl:text>
                 </fo:inline>
             </xsl:if>

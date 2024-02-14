@@ -1550,7 +1550,7 @@
             <!-- HARVARD CUSTOMIZATION: Display the unit id -->
             <xsl:if test="(string-length(ead:unitid[not(@type='aspace_uri')][0]) &gt; 0)">
                 <fo:inline font-style="italic">
-                    <xsl:value-of select="ead:unitid[not(@type='aspace_uri)]"/>
+                    <xsl:value-of select="ead:unitid[not(@type='aspace_uri')]"/>
                     <xsl:text>: </xsl:text>
                 </fo:inline>
             </xsl:if>

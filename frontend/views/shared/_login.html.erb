@@ -1,4 +1,4 @@
-<% if ENV['LOCAL']  %>
+<% if ENV['ASPACE_LOCAL_LOGIN']  %>
 <%= form_tag({:controller => "session",:action => "login"}, :method => "post", :class => "login mb-2") do %>
     <p class="alert alert-danger"><%= t "login.login_fail" %></p>
     <p class="alert alert-success"><%= t "login.login_success" %>.</p>

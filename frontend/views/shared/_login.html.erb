@@ -11,5 +11,5 @@
   <input class="mt-2 btn btn-primary navbar-btn" type="submit" name="commit" value="<%= t("login.login") %>" id="login" />
 <% end %>
 <% else %>
-<a href="<%= AppConfig[:frontend_proxy_prefix] %>auth/saml"><%= I18n.t("login.login") %></a>
+<a class="dropdown-item" href="<%= AppConfig[:frontend_proxy_prefix] %>auth/saml"><%= I18n.t("login.login") %></a>
 <% end %>

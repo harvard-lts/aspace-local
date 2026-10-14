@@ -11,9 +11,5 @@
   <input class="mt-2 btn btn-primary navbar-btn" type="submit" name="commit" value="<%= t("login.login") %>" id="login" />
 <% end %>
 <% else %>
- <%= button_to oauth_definition[:label],
-            "#{AppConfig[:frontend_proxy_prefix]}auth/#{oauth_definition[:provider]}",
-            method: :post,
-            form_class: "d-inline",
-            class: "btn btn-sm btn-link" %>
+<p>Welcome to ArchivesSpace! Please login in the upper right menu bar.</p>
 <% end %>
